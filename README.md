@@ -3,6 +3,7 @@ Auto detection and count the phage plaque number in culture plate
 
 # Introduction
 Recently I'm studing openCV, consideing bacteriophage is one of interests of my lab, I write this script for training my skill.
+
 This script only fit the circular plate, the square plate version will be developed in the next few days.
 
 # Required Packages
