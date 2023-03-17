@@ -24,15 +24,19 @@ def plate_size_normalization(phage_plate):
     sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15)) # a big kernel will be effective for erase the small noisy point
     bi_gray_cl = cv2.morphologyEx(bi_gray, cv2.MORPH_OPEN, sqKernel) # an opening operation is useful for erase the write small noisy point
     # repeat the closing operation to make the edge of plate smooth (sometimes the reflection will affect the controur finding )
-    for i in range(15):
+    for i in range(10):
         bi_gray_cl = cv2.morphologyEx(bi_gray_cl, cv2.MORPH_CLOSE, sqKernel) 
         extercnt, hierarchy = cv2.findContours(bi_gray_cl, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if len(extercnt) == 1:
             break
-        else:
-            print('Wrong value when finding the external contours, please change the sqKernel value')
-            sys.exit(1)
-    ax, ay, aw, ah = cv2.boundingRect(extercnt[0])
+    # Choose the biggest contours——plate, to resize the picture
+    if len(extercnt) > 1:
+        ax, ay, aw, ah, arclength = 0, 0, 0, 0, 0
+        for i in extercnt:
+            temlength = cv2.arcLength(i, True)
+            if temlength > arclength:
+                ax, ay, aw, ah = cv2.boundingRect(i)
+                arclength = temlength
     phage_plate_resize = imutils.resize(phage_plate[ay : ay + ah, ax : ax + aw], width = 600)
     return phage_plate_resize
 
