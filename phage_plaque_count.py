@@ -38,14 +38,16 @@ def plate_size_normalization(phage_plate):
 
 def Positioning_plaques(phage_plate):
     gray = cv2.cvtColor(phage_plate, cv2.COLOR_BGR2GRAY)
+    # Filter the noisy point
+    Gaussian_gray = cv2.GaussianBlur(gray, (3, 3), 0)
     # if the bacteriophage plaque is very clear, auto threshold calculation could be used
-    bi_gray = cv2.threshold(gray, 80, 255, cv2.THRESH_BINARY)[1]
+    bi_Gaussian_gray = cv2.threshold(Gaussian_gray, 80, 255, cv2.THRESH_BINARY)[1]
     sqKernel1 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     # To make the edge of plate smooth
     for i in range (10):
-        bi_gray = cv2.morphologyEx(bi_gray, cv2.MORPH_CLOSE, sqKernel1) 
+        bi_Gaussian_gray = cv2.morphologyEx(bi_Gaussian_gray, cv2.MORPH_CLOSE, sqKernel1) 
     # find all contours
-    allcontours, hierarchy = cv2.findContours(bi_gray.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    allcontours, hierarchy = cv2.findContours(bi_Gaussian_gray.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     # Sort all contours and remove the contour of plate
     allcontours_sorted = contours.sort_contours(allcontours, method="left-to-right")[0][1:]
     return allcontours_sorted
