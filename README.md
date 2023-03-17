@@ -11,9 +11,7 @@ openCV
 
 imutils
 
-# Usage
-The using of this tool is very easy, put the script, a trainning file "risst.tr" and the reference file you want to use to the filefolder of your sequence.
-For example, if the species of your genome dataset are *Sreptococcus suis*, you just need to put ```Streptococcus_suis_cps_locus_reference.gbk``` and ```risst.tr``` in the folder contain your genome sequence files, open a terminal and into the folder, get in the evironment if you create one by conda, and run like this:   
+# Quick Start   
 ``` Python
 python phage_plaque_count.py  *.jpg
 ```
