@@ -85,6 +85,7 @@ def output(plate, plagues, counts):
     print('A total number of {} bacteriophage plaques were detected on the plate'.format(str(counts)))  
 
 def main():
+    print('If you have any quesions or suggestions for SsuisChara, please contact Genglin Guo, e-mail: 2019207025@njau.edu.cn')
     file_name = sys.argv[1:]
     for inputfile in file_name:
         phage_plate = cv2.imread(inputfile)
